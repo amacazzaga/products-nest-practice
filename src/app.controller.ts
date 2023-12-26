@@ -3,11 +3,11 @@ import { AppService } from './app.service';
 
 @Controller("products")
 export class AppController {// clase
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Get("categories") //decorador
   findAll(): string[] {
-    return ["telefonos","tablets"]; //a modo de ejemplo
+    return ["telefonos", "tablets"]; //a modo de ejemplo
   }
   @Get(":id")
   findOne(@Param() params: any): string {

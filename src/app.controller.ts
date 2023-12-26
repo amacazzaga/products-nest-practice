@@ -11,16 +11,20 @@ export class ProductDto {
 @Controller("products")
 export class AppController {// clase
   constructor(private readonly appService: AppService) { }
-  @Post() //decorador (metodo http)
+  @Post() //decorador (metodo http) , es un post a /products
   create(@Body() createProductDto: ProductDto) {
     return 'This action adds a new product';
   }
-  @Get("categories") //decorador
-  findAll(): string[] {
-    return ["telefonos", "tablets"]; //a modo de ejemplo
+  @Get()
+  findAllProducts():string{
+    return "todos los products"
   }
-  @Get(":id") //decorador
-  findOne(@Param() params: any): string {
+  @Get("categories") //decorador , es un get a /categories/products
+  findAllCategories(): string[] {
+    return ["telefonos", "tablets","notebooks"]; //a modo de ejemplo devolvemos las categorias de los products
+  }
+  @Get(":id") //decorador que es un get a /products/:id
+  findOProductById(@Param() params: any): string {
     console.log(params.id);
     return `This action returns a ${params.id} product by id`;
   }

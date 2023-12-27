@@ -1,17 +1,15 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
-import { AppService } from './app.service';
 import { Response } from 'express';
 
 /*nuestro DTO es un objeto que declara el tipo del producto es usado solo en el metodo de POST*/
 export class ProductDto {
   name: string;
-  age: number;
-  breed: string;
+  price: number;
+  description: string;
 }
 
 @Controller("products")
 export class AppController {// clase
-  constructor(private readonly appService: AppService) { }
   @Post() //decorador (metodo http) , es un post a /products
   create(@Body() createProductDto: ProductDto) {
     return 'This action adds a new product';

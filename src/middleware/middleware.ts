@@ -10,3 +10,8 @@ export class myMiddleware implements NestMiddleware {
     next();
   }
 }
+// en este ejemplo usamos middleware como una function, al recibirlo en modules, solo necesitamos importarlo y usar el nombre de la function, 
+export function myMiddlewareFunction(req: Request, res: Response, next: NextFunction) {
+  console.log(req,res);
+    next();
+  }

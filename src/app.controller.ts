@@ -50,10 +50,15 @@ export class ProductsController {
   }
   //////
 
+  /*el controlador siempre corresponde a un modulo asi que debera ser incluido en app.modules , asi como tambien su provider,
+  en nuestro caso se veria asi : @Module({
+  controllers: [appController],
+  providers: [appsService],
+})*/
 
 
 
 
-//el controlador siempre corresponde a un modulo asi que debera ser incluido en app.modules 
+
 
 

@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ProductService } from './app.service';
+// Este es nuestro app module, si tuvieramos shared modules deberian estar todos volcados aqui, por ej :  imports: [ProductsModule] import :[UsersModule],
 
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [ProductService],
 })
-export class AppModule {}
+export class AppModule { }

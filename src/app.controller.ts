@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Response } from 'express';
 
 /*nuestro DTO es un objeto que declara el tipo del producto es usado solo en el metodo de POST*/
 export class ProductDto {
@@ -16,12 +17,12 @@ export class AppController {// clase
     return 'This action adds a new product';
   }
   @Get()
-  findAllProducts():string{
-    return "todos los products"
+  findAllProducts(@Res() res: Response) { //ejemplo de como incorporar @Res decorador de expres para dar una respuesta
+    res.status(HttpStatus.CREATED).send("todos los productos"); // 
   }
   @Get("categories") //decorador , es un get a /categories/products
   findAllCategories(): string[] {
-    return ["telefonos", "tablets","notebooks"]; //a modo de ejemplo devolvemos las categorias de los products
+    return ["telefonos", "tablets", "notebooks"]; //a modo de ejemplo devolvemos las categorias de los products
   }
   @Get(":id") //decorador que es un get a /products/:id
   findOProductById(@Param() params: any): string {
@@ -37,5 +38,7 @@ export class AdminController {
     return 'Admin page';
   }
 }
+
+//el controlador siempre corresponde a un modulo asi que debera ser incluido en app.modules 
 
 

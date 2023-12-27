@@ -1,7 +1,7 @@
 import { Global, Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ProductService } from './app.service';
-import { myMiddleware } from './middleware/middleware';
+import { myMiddleware, myMiddlewareFunction } from './middleware/middleware';
 // Este es nuestro app module, si tuvieramos shared modules deberian estar todos volcados aqui, por ej :  imports: [ProductsModule] import :[UsersModule],
 
 @Global() //podemos hacer este modulo global con este decorador para no tener que exportarlo muchisimas veces
@@ -15,7 +15,7 @@ import { myMiddleware } from './middleware/middleware';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(myMiddleware)
+      .apply(myMiddleware,myMiddlewareFunction) // aca pasamos dos middleware como ej, uno es una clase el otro una function (uno se ejecuta luego de otro!)
       .forRoutes({ path: 'products', method: RequestMethod.GET });
   }
 }

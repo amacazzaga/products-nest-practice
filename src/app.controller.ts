@@ -1,5 +1,6 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
+import { ProductService } from './app.service';
 
 /*nuestro DTO es un objeto que declara el tipo del producto es usado solo en el metodo de POST*/
 export class ProductDto {
@@ -7,12 +8,12 @@ export class ProductDto {
   price: number;
   description: string;
 }
-
+/////
 @Controller("products")
 export class AppController {// clase
   @Post() //decorador (metodo http) , es un post a /products
   create(@Body() createProductDto: ProductDto) {
-    return 'This action adds a new product';
+    return 'This action adds a new product';// en realidad devolveria createProductDto, es a modo de ejemplo!!
   }
   @Get()
   findAllProducts(@Res() res: Response) { //ejemplo de como incorporar @Res decorador de expres para dar una respuesta
@@ -36,6 +37,22 @@ export class AdminController {
     return 'Admin page';
   }
 }
+
+///ejemplo de como usar un servicio de productos en un controlador
+@Controller('products')
+export class ProductsController {
+  constructor(private productService: ProductService) {}
+
+  @Post()
+  async create(@Body() createProductDto: ProductDto) {
+    this.productService.create(createProductDto);
+  }
+  }
+  //////
+
+
+
+
 
 //el controlador siempre corresponde a un modulo asi que debera ser incluido en app.modules 
 

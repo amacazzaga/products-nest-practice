@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './app.service';
 
@@ -17,7 +17,10 @@ export class AppController {// clase
   }
   @Get()
   findAllProducts(@Res() res: Response) { //ejemplo de como incorporar @Res decorador de expres para dar una respuesta
-    res.status(HttpStatus.CREATED).send("todos los productos"); // 
+    try { res.status(HttpStatus.CREATED).send("todos los productos") } catch (error) {
+      throw new ForbiddenException();// hemos creado una clase para manejar estas excepciones en la carpeta forbidden
+    }
+    ; // 
   }
   @Get("categories") //decorador , es un get a /categories/products
   findAllCategories(): string[] {
@@ -41,19 +44,19 @@ export class AdminController {
 ///ejemplo de como usar un servicio de productos en un controlador
 @Controller('products')
 export class ProductsController {
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   @Post()
   async create(@Body() createProductDto: ProductDto) {
     this.productService.create(createProductDto);
   }
-  }
-  //////
+}
+//////
 
-  /*el controlador siempre corresponde a un modulo asi que debera ser incluido en app.modules , asi como tambien su provider,
-  en nuestro caso se veria asi : @Module({
-  controllers: [appController],
-  providers: [appsService],
+/*el controlador siempre corresponde a un modulo asi que debera ser incluido en app.modules , asi como tambien su provider,
+en nuestro caso se veria asi : @Module({
+controllers: [appController],
+providers: [appsService],
 })*/
 
 

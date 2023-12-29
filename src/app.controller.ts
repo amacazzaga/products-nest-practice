@@ -1,4 +1,4 @@
-import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './app.service';
 
@@ -49,11 +49,16 @@ export class AdminController {
 export class ProductsController {
   constructor(private productService: ProductService) { }
 
-    // podemos usar un get by id de product y usar un pipe, asi podemos asegurarnos que el parametro sea un numero
-    @Get(':id')
-    async findProductByIdWithPipe(@Param('id', ParseIntPipe) id: number) {
-      return // por ej this.productService.findOne(id)
-    }
+  // podemos usar un get by id de product y usar un pipe, asi podemos asegurarnos que el parametro sea un numero, podriamos tirar un error en caso contrario
+  @Get(':id')
+  async findProductByIdWithPipe(@Param('id', ParseIntPipe) id: number) {
+    return // por ej this.productService.findOne(id)
+  }
+  //una forma similar de usar estos pipes , para query params:
+  @Get()
+  async findOne(@Query('id', ParseIntPipe) id: number) {
+    return  // por ej this.productService.findOne(id)
+  }
 
   @Post()
   async create(@Body() createProductDto: ProductDto) {

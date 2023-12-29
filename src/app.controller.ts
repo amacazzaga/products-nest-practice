@@ -1,4 +1,4 @@
-import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './app.service';
 
@@ -27,11 +27,14 @@ export class AppController {// clase
     return ["telefonos", "tablets", "notebooks"]; //a modo de ejemplo devolvemos las categorias de los products
   }
   @Get(":id") //decorador que es un get a /products/:id
-  findOProductById(@Param() params: any): string {
+  findProductById(@Param() params: any): string {
     console.log(params.id);
     return `This action returns a ${params.id} product by id`;
   }
+
 }
+//podemos usar un get by id y aplicarle un pipe como aca :
+
 // ejemplo de como usando host podemos entender que la request es de admin y devolverle la pagina al adm de nuestros products
 @Controller({ host: 'admin.example.com' })
 export class AdminController {
@@ -45,6 +48,12 @@ export class AdminController {
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductService) { }
+
+    // podemos usar un get by id de product y usar un pipe, asi podemos asegurarnos que el parametro sea un numero
+    @Get(':id')
+    async findProductByIdWithPipe(@Param('id', ParseIntPipe) id: number) {
+      return // por ej this.productService.findOne(id)
+    }
 
   @Post()
   async create(@Body() createProductDto: ProductDto) {

@@ -1,6 +1,8 @@
-import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './app.service';
+import { ZodValidationPipe } from './validation/zodValidationPipe';
+import { createProductSchema } from './schema/zodSchema';
 
 /*nuestro DTO es un objeto que declara el tipo del producto es usado solo en el metodo de POST*/
 export class ProductDto {
@@ -12,6 +14,7 @@ export class ProductDto {
 @Controller("products")
 export class AppController {// clase
   @Post() //decorador (metodo http) , es un post a /products
+  @UsePipes(new ZodValidationPipe(createProductSchema)) // con el decorador de usePipes es cuando validamos la request respecto del esquema que hicimos y el custom pipe, ese custom pipe toma el esquema como parametro
   create(@Body() createProductDto: ProductDto) {
     return 'This action adds a new product';// en realidad devolveria createProductDto, es a modo de ejemplo!!
   }

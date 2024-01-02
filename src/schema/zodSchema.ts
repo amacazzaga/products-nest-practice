@@ -11,3 +11,17 @@ export const createProductSchema = z
   .required();
 
 export type CreateProductDto = z.infer<typeof createProductSchema>;
+
+/*
+
+export class CreateCatDto {
+  @IsString()
+  name: string;
+
+  @IsInt()
+  age: number;
+
+  @IsString()
+  breed: string;
+}
+*/ //asi podemos crear el esquema de validacion usando clases tambien, a modo loopback

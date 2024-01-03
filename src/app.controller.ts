@@ -1,8 +1,9 @@
-import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res, UsePipes } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res, UseGuards, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './app.service';
 import { ZodValidationPipe } from './validation/zodValidationPipe';
 import { createProductSchema } from './schema/zodSchema';
+import { RolesGuard } from './authorization/role.guard';
 
 /*nuestro DTO es un objeto que declara el tipo del producto es usado solo en el metodo de POST*/
 export class ProductDto {
@@ -40,6 +41,7 @@ export class AppController {// clase
 
 // ejemplo de como usando host podemos entender que la request es de admin y devolverle la pagina al adm de nuestros products
 @Controller({ host: 'admin.example.com' })
+@UseGuards(RolesGuard) // aqui siguendo con la logica de rutas protegias, como cuando usamos host arriba, creamos un guard que proteje endpoints de administrador, 
 export class AdminController {
   @Get()
   index(): string {

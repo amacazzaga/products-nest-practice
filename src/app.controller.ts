@@ -1,9 +1,10 @@
-import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, HttpStatus, Param, ParseIntPipe, Post, Query, Res, UseGuards, UsePipes, UseInterceptors } from '@nestjs/common';
 import { Response } from 'express';
 import { ProductService } from './app.service';
 import { ZodValidationPipe } from './validation/zodValidationPipe';
 import { createProductSchema } from './schema/zodSchema';
 import { RolesGuard } from './authorization/role.guard';
+import { LoggingInterceptor } from './interceptor/loggin.interceptor';
 
 /*nuestro DTO es un objeto que declara el tipo del producto es usado solo en el metodo de POST*/
 export class ProductDto {
@@ -26,6 +27,7 @@ export class AppController {// clase
     }
     ; // 
   }
+
   @Get("categories") //decorador , es un get a /categories/products
   findAllCategories(): string[] {
     return ["telefonos", "tablets", "notebooks"]; //a modo de ejemplo devolvemos las categorias de los products
@@ -50,6 +52,8 @@ export class AdminController {
 }
 
 ///ejemplo de como usar un servicio de productos en un controlador
+@UseInterceptors(LoggingInterceptor) // decorador de interceptor , toma como param la funcion que creamos de login, aplica a todos los route handler
+//porque esta aplicado a nivel de la clase ProductsController
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductService) { }

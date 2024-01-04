@@ -9,8 +9,9 @@ export class LoggingInterceptor implements NestInterceptor {
 
         const now = Date.now();
         return next
-            .handle() // esto es crucial, si no se llama ese metodo, no se ejecutara el route handler :  
-            //La llamada a next.handle() en el interceptor es lo que permite que la ejecución continúe hacia el controlador.
+            .handle() // esto es crucial, si no se llama ese handle() metodo, no se ejecutara el route handler ... create, post get el q sea
+            //La llamada a next.handle() en el interceptor es lo que permite que la ejecución continúe hacia el controlador, cuando este metodo hanlde
+            // retorna Observable, luego tenemos otra cantidad de operadores para usar, en este caso es pipe()
             .pipe(
                 tap(() => console.log(`After... ${Date.now() - now}ms`)),
             );
